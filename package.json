@@ -1,0 +1,18 @@
+{
+  "name": "ndb-typescript-api",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/types.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "fireing123",
+  "license": "ISC",
+  "prepublishOnly": "npm run build",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
