@@ -1,3 +1,4 @@
+import { NDBRespone } from "./types";
 
 export class NDB {
     fetchUser: string;
@@ -23,9 +24,7 @@ export class NDB {
 class DataBase {
 
     constructor(public client: NDB, public name: string) {
-        if (DataBase.hasDataBase(client, name)) {
-            return new DataBase(client, name);
-        } else {
+        if (!DataBase.hasDataBase(client, name)) {
             throw Error("null");
         }
     }
@@ -48,13 +47,15 @@ class DataBase {
 }
 
 class Collection {
+    nameParams: string;
+    fetchUser: string;
 
     constructor(public database: DataBase, public name: string) {
-        if (Collection.hasCollection(database, name)) {
-            return new Collection(database, name);
-        } else {
+        if (!Collection.hasCollection(database, name)) {
             throw Error("널");
         }
+        this.fetchUser = database.client.fetchUser;
+        this.nameParams = `database=${database.name}&collection=${name}`;
     }
 
     public static hasCollection(database: DataBase, name: string): boolean {
@@ -62,12 +63,26 @@ class Collection {
         return false;
     }
 
-    public findBy(key: string) {
-
+    public async NDBfetch(input: string, init?: RequestInit): Promise<NDBRespone | object> {
+        return await fetch(`${this.database.client.url}/collection?${this.fetchUser}&${this.nameParams}${input}`, init).then(async res => await res.json());
     }
 
-    public editValue(key: string, value: object) {
+    public async findBy(key: string) {
+        const res = await this.NDBfetch(`&findBy=${key}`);
+        if ('result' in res && res.result == 'fail') {
+            throw Error(res.cause);
+        } else {
+            return res as object;
+        }
+    }
 
+    public async editValue(key: string, value: object) {
+        const res = await this.NDBfetch(`&findBy=${key}&edit=${JSON.stringify(value)}`);
+        if ('result' in res && res.result == 'fail') {
+            throw Error(res.cause);
+        } else {
+            return true;
+        }
     }
 
     public setStrict(key: string, value: boolean) {
