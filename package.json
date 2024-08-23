@@ -1,8 +1,8 @@
 {
   "name": "ndb-typescript-api",
-  "version": "0.0.1",
-  "main": "dist/index.js",
-  "types": "dist/types.d.ts",
+  "version": "0.0.3",
+  "main": "src/index.js",
+  "types": "src/types.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
