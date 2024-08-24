@@ -1,18 +1,36 @@
 {
   "name": "ndb-typescript-api",
-  "version": "0.0.3",
-  "main": "src/index.js",
-  "types": "src/types.d.ts",
+  "version": "0.0.4",
+  "main": "./lib/cjs/index.js",
+  "types": "./lib/cjs/types/types.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rmdir lib /s /q",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc -p ./configs/tsconfig.esm.json && cd lib/esm && ren index.js index.mjs",
+    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+    "prepack": "npm run build"
   },
   "author": "fireing123",
   "license": "ISC",
-  "prepublishOnly": "npm run build",
   "description": "",
   "devDependencies": {
     "@types/node": "^22.4.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
-  }
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/esm/types/index.d.ts",
+        "default": "./lib/esm/index.mjs"
+      },
+      "require": {
+        "types": "./lib/cjs/types/index.d.ts",
+        "default": "./lib/cjs/index.js"
+      }
+    }
+  },
+  "files": [
+   "lib/**/*"
+  ]
 }
