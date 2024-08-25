@@ -1,9 +1,10 @@
-import { NDBRespone } from "./types";
+import { NDBRespone, Role } from "./types";
 export declare class NDB {
     url: string;
     fetchUser: string;
     constructor(url: string);
     init(userId: string, password: string): Promise<void>;
+    createUser(userId: string, password: string, role: Role): Promise<boolean>;
     getDataBase(dbName: string): DataBase;
     createDataBase(dbName: string): Promise<DataBase>;
 }

@@ -1,6 +1,6 @@
 {
   "name": "ndb-typescript-api",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "./lib/cjs/index.js",
   "types": "./lib/cjs/types/types.d.ts",
   "scripts": {

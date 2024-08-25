@@ -1,4 +1,4 @@
-import { NDBRespone } from "./types";
+import { NDBRespone, Role } from "./types";
 
 export class NDB {
     fetchUser: string = '';
@@ -12,6 +12,16 @@ export class NDB {
             .then(async res => await res.json()) as NDBRespone;
         if (!('result' in res && res.result == 'exist')) {
             throw Error("계정이 없음!");
+        }
+    }
+
+    public async createUser(userId: string, password: string, role: Role) {
+        const res = await fetch(`${this.url}/create?${this.fetchUser}&user=${userId}:${password}:${role}`)
+            .then(async res => await res.json());
+        if ('result' in res && res.result == 'ALREADY_EXIST') {
+            return true;
+        } else {
+            return false;
         }
     }
 
